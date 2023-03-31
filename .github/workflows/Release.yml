@@ -15,7 +15,7 @@ on:
 jobs:
   release:
     name: Release
-    runs-on: [self-hosted, ubuntu]
+    runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
     steps:
