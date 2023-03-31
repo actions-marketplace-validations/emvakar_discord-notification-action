@@ -1,0 +1,43 @@
+name: 'Notification'
+description: 'Send a notification to Discord with a given status'
+inputs:
+  status:
+    description: 'The build status (e.g., Start, Done, Error)'
+    required: true
+  icon:
+    description: 'The emoji icon for the status'
+    required: true
+  title:
+    description: 'The title of your app'
+    required: true
+  webhook:
+    description: 'The Discord webhook'
+    required: true
+outputs:
+  version:
+    description: 'The release version of the app (e.g., get it from release/1.0.7)'
+  build_number:
+    description: 'The incremented run number'
+
+runs:
+  using: 'composite'
+  steps:
+    - run: echo "BUILD_NUMBER=$((GITHUB_RUN_NUMBER))" >> $GITHUB_ENV
+      shell: bash
+    - run: |
+        str=${{ github.ref_name }}
+        find="release/"
+        replace=""
+        result=${str//$find/$replace}
+        echo ${result}
+        echo "VERSION=${result}" >> $GITHUB_ENV
+      shell: bash
+    - id: discord
+      uses: Ilshidur/action-discord@master
+      with:
+        args: |
+          ${{ inputs.icon }} ${{ inputs.status }} build ${{ inputs.title }}: ${{ env.VERSION }} # ${{ env.BUILD_NUMBER }}
+          Deploy to ${{ github.workflow }}
+          Build link: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
