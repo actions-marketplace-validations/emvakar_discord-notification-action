@@ -37,7 +37,7 @@ runs:
         echo "VERSION=${result}" >> $GITHUB_ENV
         echo "BUILD_NUMBER=$((GITHUB_RUN_NUMBER))" >> $GITHUB_ENV
         echo "TITLE=${{ inputs.title || github.repository }}" >> $GITHUB_ENV
-        echo "WEBHOOK=${{ inputs.title || secrets.DISCORD_WEBHOOK }}" >> $GITHUB_ENV
+        echo "WEBHOOK=${{ inputs.webhook || secrets.DISCORD_WEBHOOK }}" >> $GITHUB_ENV
       shell: bash
     - id: discord
       uses: Ilshidur/action-discord@master
