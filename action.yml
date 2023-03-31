@@ -1,8 +1,10 @@
 name: 'discord-notification-templated-text'
 description: 'Send a notification to Discord with a given status'
 author: 'emvakar'
-icon: bell
-color: blue
+branding:
+  icon: 'bell'
+  color: blue
+
 inputs:
   status:
     description: 'The build status (e.g., Start, Done, Error)'
