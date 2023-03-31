@@ -16,7 +16,6 @@ inputs:
   title:
     description: 'The title of your app'
     required: false
-    default: ${{ github.repository }}
   webhook:
     description: 'The Discord webhook'
     required: false
@@ -42,7 +41,7 @@ runs:
       uses: Ilshidur/action-discord@master
       with:
         args: |
-          ${{ inputs.icon }} ${{ inputs.status }} build ${{ inputs.title }}: ${{ env.VERSION }} # ${{ env.BUILD_NUMBER }}
+          ${{ inputs.icon }} ${{ inputs.status }} build ${{ inputs.title || ${{ github.repository }} }}: ${{ env.VERSION }} # ${{ env.BUILD_NUMBER }}
           Deploy to ${{ github.workflow }}
           Build link: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         env:
