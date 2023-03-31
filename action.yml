@@ -9,6 +9,9 @@ inputs:
   status:
     description: 'The build status (e.g., Start, Done, Error)'
     required: true
+  webhook:
+    description: 'The Discord webhook'
+    required: true
   icon:
     description: 'The emoji icon for the status'
     required: false
@@ -16,9 +19,6 @@ inputs:
   title:
     description: 'The title of your app'
     required: false
-  webhook:
-    description: 'The Discord webhook'
-    required: true
 outputs:
   version:
     description: 'The release version of the app (e.g., get it from release/1.0.7)'
