@@ -6,13 +6,16 @@ inputs:
     required: true
   icon:
     description: 'The emoji icon for the status'
-    required: true
+    required: false
+    default: 👨🏼‍💻
   title:
     description: 'The title of your app'
-    required: true
+    required: false
+    default: ${{ github.repository }}
   webhook:
     description: 'The Discord webhook'
-    required: true
+    required: false
+    default: ${{ secrets.DISCORD_WEBHOOK }}
 outputs:
   version:
     description: 'The release version of the app (e.g., get it from release/1.0.7)'
@@ -22,8 +25,6 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - run: echo "BUILD_NUMBER=$((GITHUB_RUN_NUMBER))" >> $GITHUB_ENV
-      shell: bash
     - run: |
         str=${{ github.ref_name }}
         find="release/"
@@ -31,6 +32,7 @@ runs:
         result=${str//$find/$replace}
         echo ${result}
         echo "VERSION=${result}" >> $GITHUB_ENV
+        echo "BUILD_NUMBER=$((GITHUB_RUN_NUMBER))" >> $GITHUB_ENV
       shell: bash
     - id: discord
       uses: Ilshidur/action-discord@master
@@ -40,4 +42,4 @@ runs:
           Deploy to ${{ github.workflow }}
           Build link: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_WEBHOOK: ${{ inputs.webhook }}
