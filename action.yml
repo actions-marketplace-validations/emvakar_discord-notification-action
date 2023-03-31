@@ -1,4 +1,4 @@
-name: 'Notification'
+name: 'discord-notification-templated-text'
 description: 'Send a notification to Discord with a given status'
 inputs:
   status:
