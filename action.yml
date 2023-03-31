@@ -18,7 +18,7 @@ inputs:
     required: false
   webhook:
     description: 'The Discord webhook'
-    required: false
+    required: true
 outputs:
   version:
     description: 'The release version of the app (e.g., get it from release/1.0.7)'
@@ -36,15 +36,12 @@ runs:
         echo ${result}
         echo "VERSION=${result}" >> $GITHUB_ENV
         echo "BUILD_NUMBER=$((GITHUB_RUN_NUMBER))" >> $GITHUB_ENV
+        echo "WEBHOOK=${{ inputs.webhook }}" >> $GITHUB_ENV
+
         if [ -n "${{ inputs.title }}" ]; then
           echo "TITLE=${{ inputs.title }}" >> $GITHUB_ENV
         else
           echo "TITLE=${{ github.repository }}" >> $GITHUB_ENV
-        fi
-        if [ -n "${{ inputs.webhook }}" ]; then
-          echo "WEBHOOK=${{ inputs.webhook }}" >> $GITHUB_ENV
-        else
-          echo "WEBHOOK=${{ secrets.DISCORD_WEBHOOK }}" >> $GITHUB_ENV
         fi
       shell: bash
     - id: discord
