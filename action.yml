@@ -49,10 +49,10 @@ runs:
       shell: bash
     - id: discord
       uses: Ilshidur/action-discord@master
+      env:
+        DISCORD_WEBHOOK: ${{ env.WEBHOOK }}
       with:
         args: |
           ${{ inputs.icon }} ${{ inputs.status }} build ${{ env.TITLE }}: ${{ env.VERSION }} # ${{ env.BUILD_NUMBER }}
           Deploy to ${{ github.workflow }}
           Build link: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        env:
-          DISCORD_WEBHOOK: ${{ env.WEBHOOK }}
