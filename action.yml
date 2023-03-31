@@ -20,7 +20,6 @@ inputs:
   webhook:
     description: 'The Discord webhook'
     required: false
-    default: ${{ secrets.DISCORD_WEBHOOK }}
 outputs:
   version:
     description: 'The release version of the app (e.g., get it from release/1.0.7)'
@@ -47,4 +46,4 @@ runs:
           Deploy to ${{ github.workflow }}
           Build link: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         env:
-          DISCORD_WEBHOOK: ${{ inputs.webhook }}
+          DISCORD_WEBHOOK: ${{ inputs.webhook || secrets.DISCORD_WEBHOOK }}
