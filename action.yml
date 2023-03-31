@@ -36,13 +36,15 @@ runs:
         echo ${result}
         echo "VERSION=${result}" >> $GITHUB_ENV
         echo "BUILD_NUMBER=$((GITHUB_RUN_NUMBER))" >> $GITHUB_ENV
+        echo "TITLE=${{ inputs.title || github.repository }}" >> $GITHUB_ENV
+        echo "WEBHOOK=${{ inputs.title || secrets.DISCORD_WEBHOOK }}" >> $GITHUB_ENV
       shell: bash
     - id: discord
       uses: Ilshidur/action-discord@master
       with:
         args: |
-          ${{ inputs.icon }} ${{ inputs.status }} build ${{ inputs.title || ${{ github.repository }} }}: ${{ env.VERSION }} # ${{ env.BUILD_NUMBER }}
+          ${{ inputs.icon }} ${{ inputs.status }} build ${{ env.TITLE }}: ${{ env.VERSION }} # ${{ env.BUILD_NUMBER }}
           Deploy to ${{ github.workflow }}
           Build link: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         env:
-          DISCORD_WEBHOOK: ${{ inputs.webhook || secrets.DISCORD_WEBHOOK }}
+          DISCORD_WEBHOOK: ${{ env.WEBHOOK }}
