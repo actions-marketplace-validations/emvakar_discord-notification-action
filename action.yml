@@ -36,8 +36,16 @@ runs:
         echo ${result}
         echo "VERSION=${result}" >> $GITHUB_ENV
         echo "BUILD_NUMBER=$((GITHUB_RUN_NUMBER))" >> $GITHUB_ENV
-        echo "TITLE=${{ inputs.title || github.repository }}" >> $GITHUB_ENV
-        echo "WEBHOOK=${{ inputs.webhook || secrets.DISCORD_WEBHOOK }}" >> $GITHUB_ENV
+        if [ -n "${{ inputs.title }}" ]; then
+          echo "TITLE=${{ inputs.title }}" >> $GITHUB_ENV
+        else
+          echo "TITLE=${{ github.repository }}" >> $GITHUB_ENV
+        fi
+        if [ -n "${{ inputs.webhook }}" ]; then
+          echo "WEBHOOK=${{ inputs.webhook }}" >> $GITHUB_ENV
+        else
+          echo "WEBHOOK=${{ secrets.DISCORD_WEBHOOK }}" >> $GITHUB_ENV
+        fi
       shell: bash
     - id: discord
       uses: Ilshidur/action-discord@master
